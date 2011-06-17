@@ -13,6 +13,7 @@
         <link rel="stylesheet" type="text/css" href="http://code.google.com/apis/maps/documentation/javascript/examples/default.css"/>
         <link rel="stylesheet" type="text/css" href="http://ajax.googleapis.com/ajax/libs/dojo/1.6/dijit/themes/claro/claro.css"/>
         <link rel="stylesheet" type="text/css" href="styles/styles.css">
+        <link rel="stylesheet" type="text/css" href="lib/dojox/grid/resources/tundraGrid.css">
         <script type="text/javascript">
             dojo.require("dojo.data.ItemFileReadStore");
             dojo.require("dojo.io.script");
@@ -21,76 +22,45 @@
             dojo.addOnLoad(onLoad);
             function onLoad(){
                 dojo.io.script.get({
-                    url: "http://www.google.com/fusiontables/api/query?sql=select%20*%20from%201014134%20order%20by%20Code&jsonCallback=done2"
+                    url: "http://www.google.com/fusiontables/api/query?sql=select%20*%20from%201014134%20order%20by%20Code&jsonCallback=done"
                 });
             }
             
-            function done(){
-                var store4 = new dojox.data.CsvStore({
-                    url: 'js/movies.csv'
-                });
-                var layout4 = [{
-                    field: 'Title',
-                    name: 'Title of Movie',
-                    width: '200px'
-                }, {
-                    field: 'Year',
-                    name: 'Year',
-                    width: '50px'
-                }, {
-                    field: 'Producer',
-                    name: 'Producer',
-                    width: 'auto'
-                }];
-                
-                layout4.push({
-                    field: 'wibble',
-                    name: 'wobble',
-                    width: '50px'
-                })
-                // create a new grid:
-                var grid4 = new dojox.grid.DataGrid({
-                    query: {
-                        Title: '*'
-                    },
-                    store: store4,
-                    clientSort: true,
-                    rowSelector: '20px',
-                    structure: layout4
-                }, document.createElement('div'));
-                
-                // append the new grid to the div "gridContainer4":
-                dojo.byId("gridContainer4").appendChild(grid4.domNode);
-                
-                // Call startup, in order to render the grid:
-                grid4.startup();
-                
-            }
-            
-            function done2(results){
+            function done(results){
                 var rows = results.table.rows;
                 var items = [];
                 dojo.forEach(rows, function(row, i){
                     items.push({
-                        code: row[0]
+                        col0: row[0],
+                        col1: row[1],
+                        col2: row[2],
+                        col3: row[3],
+                        col4: row[4],
+                        col5: row[5],
+                        col6: row[6],
+                        col7: row[7],
+                        col8: row[8],
+                        col9: row[9],
+                        col10: row[10],
+                        col11: row[11],
+                        col12: row[12],
+                        col13: row[13]
                     });
                 });
                 countriesStore.data = {
-                    identifier: "code",
-                    label: "code",
+                    identifier: "col0",
+                    label: "col0",
                     items: items
                 };
                 var cols = [];
                 dojo.forEach(results.table.cols, function(column, i){
                     cols.push({
-                        field: column,
-                        name: column,
-                        width: '50px'
+                        field: "col" + i.toString(),
+                        name: column
                     });
                 });
                 var grid = new dojox.grid.DataGrid({
                     store: countriesStore,
-                    rowSelector: '20px',
                     structure: cols
                 }, document.createElement('div'));
                 dojo.byId("gridContainer4").appendChild(grid.domNode);
@@ -99,10 +69,10 @@
             }
         </script>
     </head>
-    <body>
+    <body class="tundra">
         <div dojoType="dojo.data.ItemFileReadStore" jsId="countriesStore">
         </div>
-        <div id="gridContainer4" style="width: 100%; height: 100%;">
+        <div id="gridContainer4" style="position:absolute;left:10px;top:10px;width: 870px; height: 90%;">
         </div>
     </body>
 </html>
