@@ -54,7 +54,7 @@
 	border-bottom-width: 3px;
 }
 .dojoxGridHeader .dojoxGridCellFocus {
-	border: 1px dashed blue;
+	/*border: 1px dashed blue;*/
 }
 .dojoxGridHeader.dojoxGridCellFocus.dojoxGridCellOver {
 	background-image: none;
@@ -309,7 +309,7 @@
 }
 .tundra .dojoxGridHeader .dojoxGridCellFocus {
 	border-color: #ACA899 #919191;
-	border-style: dashed;	
+	/*border-style: dashed;*/	
 }
 .tundra .dojoxGridArrowButtonChar {
 	float: right;
@@ -392,13 +392,13 @@
 	border-right: 1px solid #D5CDB5;
 }
 .tundra .dojoxGridCellFocus {
-	border: 1px dashed darkblue;
+/*	border: 1px dashed darkblue;*/
 }
 .tundra .dojoxGridCellOver {
 	border: 1px dotted #a6a6a6;
 }
 .tundra .dojoxGridCellFocus.dojoxGridCellOver {
-	border: 1px dashed darkblue;
+	/*border: 1px dashed darkblue;*/
 }
 .tundra .dojoxGridRowEditing td {
 	

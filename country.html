@@ -3,7 +3,7 @@
     <head>
         <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
         <meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
-        <title>FACE Countries Page</title>
+        <title>FACE Country Page</title>
         <script type="text/javascript" src="http://www.google.com/jsapi">
         </script>
         <script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false">
@@ -21,7 +21,7 @@
             dojo.addOnLoad(onLoad);
             function onLoad(){
                 dojo.io.script.get({
-                    url: "http://www.google.com/fusiontables/api/query?sql=select%20*%20from%201014134%20order%20by%20Code&jsonCallback=done"
+                    url: "http://www.google.com/fusiontables/api/query?sql=select%20Scientific,English%20from%201009188%20where%20Code='GB'%20order%20by%20Scientific&jsonCallback=done"
                 });
             }
             
@@ -30,36 +30,25 @@
                 var items = [];
                 dojo.forEach(rows, function(row, i){
                     items.push({
-                        col0: row[0],
-                        col1: row[1],
-                        col2: row[2],
-                        col3: row[3],
-                        col4: row[4],
-                        col5: row[5],
-                        col6: row[6],
-                        col7: row[7],
-                        col8: row[8],
-                        col9: row[9],
-                        col10: row[10],
-                        col11: row[11],
-                        col12: row[12],
-                        col13: row[13]
+                        Scientific: row[0],
+                        English: row[1]
                     });
                 });
-                countriesStore.data = {
-                    identifier: "col0",
-                    label: "col0",
+                speciesStore.data = {
+                    identifier: "Scientific",
+                    label: "Scientific",
                     items: items
                 };
                 var cols = [];
                 dojo.forEach(results.table.cols, function(column, i){
                     cols.push({
-                        field: "col" + i.toString(),
-                        name: column
+                        field: column,
+                        name: column,
+                        width:"100px"
                     });
                 });
                 var grid = new dojox.grid.DataGrid({
-                    store: countriesStore,
+                    store: speciesStore,
                     structure: cols
                 }, document.createElement('div'));
                 dojo.byId("gridContainer").appendChild(grid.domNode);
@@ -69,9 +58,9 @@
         </script>
     </head>
     <body class="tundra">
-        <div dojoType="dojo.data.ItemFileReadStore" jsId="countriesStore">
+        <div dojoType="dojo.data.ItemFileReadStore" jsId="speciesStore">
         </div>
-        <div id="gridContainer" style="position:absolute;left:10px;top:10px;width: 870px; height: 90%;">
+        <div id="gridContainer" style="position:absolute;left:10px;top:10px;width: 250px; height: 90%;">
         </div>
     </body>
 </html>
