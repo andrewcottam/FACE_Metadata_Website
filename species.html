@@ -4,14 +4,10 @@
         <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
         <meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
         <title>Species page</title>
-        <script type="text/javascript" src="http://www.google.com/jsapi">
-        </script>
         <script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false">
         </script>
         <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/dojo/1.6/dojo/dojo.xd.js" djConfig="parseOnLoad: true">
         </script>
-        <link rel="stylesheet" type="text/css" href="http://code.google.com/apis/maps/documentation/javascript/examples/default.css"/>
-        <link rel="stylesheet" type="text/css" href="http://ajax.googleapis.com/ajax/libs/dojo/1.6/dijit/themes/claro/claro.css"/>
         <link rel="stylesheet" type="text/css" href="styles/styles.css">
         <link rel="stylesheet" type="text/css" href="lib/dojox/grid/resources/tundraGrid.css">
         <script type="text/javascript">
@@ -20,15 +16,13 @@
             dojo.require("dojox.grid.DataGrid");
             dojo.addOnLoad(onLoad);
             function onLoad(){
-                var centre = new google.maps.LatLng(50, 10);
+                var centre = new google.maps.LatLng(53, 10);
                 var map = new google.maps.Map(document.getElementById('map_canvas'), {
                     center: centre,
-                    zoom: 4,
-                    mapTypeId: 'terrain',
-                    disableDefaultUI: true
+                    zoom: 3,
+                    streetViewControl:false,
+                    mapTypeId: 'terrain'
                 });
-                map.draggable = false;
-                map.disableDoubleClickZoom = true;
                 var queryParams = dojo.queryToObject(window.location.search.slice(1)); //get the query parameters
                 var id = queryParams["id"]; //get the id for the species
                 var layer = new google.maps.FusionTablesLayer({
@@ -41,6 +35,9 @@
                 layer.setMap(map);
                 dojo.io.script.get({
                     url: "http://www.google.com/fusiontables/api/query?sql=select%20Name%20from%201027051%20where%20SpeciesID=" + id + "%20order%20by%20Name&jsonCallback=done"
+                });
+                dojo.io.script.get({
+                    url: "http://www.google.com/fusiontables/api/query?sql=select%20Scientific,English%20from%201009501%20where%20ID=" + id + "&jsonCallback=doneSpecies"
                 });
             }
             
@@ -61,26 +58,41 @@
                 dojo.forEach(results.table.cols, function(column, i){
                     cols.push({
                         field: column,
-                        name: column,
+                        name: "Country",
                         width: "100px"
                     });
                 });
                 var grid = new dojox.grid.DataGrid({
                     store: countryStore,
-                    structure: cols
+                    structure: cols,
+                    autoHeight: true,
+                    autoWidth: true
                 }, document.createElement('div'));
                 dojo.byId("gridContainer").appendChild(grid.domNode);
                 grid.startup();
             }
+            
+            function doneSpecies(results){
+                var rows = results.table.rows;
+                dojo.byId("speciesName").innerHTML = rows[0][0] + " (" + rows[0][1] + ")";
+                dojo.byId("content").style.visibility = "visible";
+            }
         </script>
     </head>
     <body class="tundra">
-        <div style="position:relative;width:100%;height:100%">
-            <div id="map_canvas">
+        <div dojoType="dojo.data.ItemFileReadStore" jsId="countryStore">
+        </div>
+        <div class="div1">
+            <div class="div2">
+                <img src="images/face.gif" alt="FACE logo" class="faceLogo"/><h1 style="padding:10px">FACE Metadata Website</h1>
             </div>
-            <div dojoType="dojo.data.ItemFileReadStore" jsId="countryStore">
-            </div>
-            <div id="gridContainer" style="width: 10%; height: 90%;">
+            <div style="margin:10px;visibility:hidden;" id="content">
+                <h2 id="speciesName"></h2>
+                <div id="map_canvas">
+                </div>
+                <h3>Countries where this species is hunted:</h3>
+                <div id="gridContainer">
+                </div>
             </div>
         </div>
     </body>

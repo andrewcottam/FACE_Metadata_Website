@@ -1,22 +1,38 @@
 html, body {
-    height: 100%;
     width: 100%;
     margin: 0;
     padding: 0;
     font-family: "Lucida Grande", "Helvetica Neue", Helvetica, "Trebuchet MS", Arial, sans-serif;
     font-size: 12px;
     color: #555;
+}
+
+.div2 {
+    border: solid thin silver;
+    vertical-align:middle;
     overflow: hidden;
 }
 
-#map_canvas {
-    width: 600px;
-    height: 500px;
-    top: 50px;
-    left: 150px;
+.faceLogo {
+    display: inline;
+    float: right;
+    vertical-align: middle;
+    height:80px;
+    width:80px;
 }
 
-#speciesList {
-    top: 10px;
-    left: 10px;
+#map_canvas {
+    width: 400px;
+    height: 350px;
+}
+.an{
+  margin-left:10px;
+}
+.qu{
+  width:100px;
+}
+.org{
+  font-size:13px;
+  vertical-align:middle;
+  margin:15px 5px 5px 5px;
 }

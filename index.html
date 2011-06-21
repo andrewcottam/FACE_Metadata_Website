@@ -9,7 +9,7 @@
         <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/dojo/1.6/dojo/dojo.xd.js" djConfig="parseOnLoad: true">
         </script>
         <link rel="stylesheet" type="text/css" href="http://code.google.com/apis/maps/documentation/javascript/examples/default.css"/>
-        <link rel="stylesheet" type="text/css" href="http://ajax.googleapis.com/ajax/libs/dojo/1.6/dijit/themes/claro/claro.css"/>
+        <link rel="stylesheet" type="text/css" href="http://ajax.googleapis.com/ajax/libs/dojo/1.6/dijit/themes/tundra/tundra.css"/>
         <link rel="stylesheet" type="text/css" href="styles/styles.css">
         <script type="text/javascript">
             dojo.require("dojo.data.ItemFileReadStore");
@@ -95,9 +95,13 @@
         </script>
     </head>
     <body class="tundra">
-        <div style="width: 96%; height: 95%; margin: 2%;  border:solid 3px  silver;">
-            <div style="border:solid thin silver;overflow:hidden">
-                <img src="images/face.gif" alt="FACE logo" style="display:inline;float:right;vertical-align:middle;"/><h1 style="padding:10px">FACE Metadata Website</h1>
+        <div dojoType="dojo.data.ItemFileReadStore" jsId="speciesStore">
+        </div>
+        <div dojoType="dojo.data.ItemFileReadStore" jsId="countryStore">
+        </div>
+        <div class="div1">
+            <div class="div2">
+                <img src="images/face.gif" alt="FACE logo" class="faceLogo"/><h1 style="padding:10px">FACE Metadata Website</h1>
             </div>
             <div style="margin:10px;">
                 <p>
@@ -113,11 +117,9 @@
                 </ul>
                 <h2>Species</h2>
                 <p>
-                    If you are interested in a particular species, please select the it from the list below:
+                    If you are interested in a particular bird species, please select the it from the list below:
                 </p>
                 <div style="vertical-align:middle;">
-                    <div dojoType="dojo.data.ItemFileReadStore" jsId="speciesStore">
-                    </div>
                     <div dojoType="dijit.form.ComboBox" store="speciesStore" searchAttr="Scientific" id="speciesList" style="margin-left:10px;width:310px;vertical-align:middle;">
                     </div>
                     <button onclick="gotoSpeciesPage()" style="vertical-align:middle;">
@@ -129,9 +131,7 @@
                     If you are interested in a particular country, please select the it from the list below:
                 </p>
                 <div style="vertical-align:middle;">
-                    <div dojoType="dojo.data.ItemFileReadStore" jsId="countryStore">
-                    </div>
-                    <div dojoType="dijit.form.ComboBox" store="countryStore" searchAttr="Name" id="countryList" style="margin-left:10px;width:120px;vertical-align:middle;">
+                    <div dojoType="dijit.form.ComboBox" store="countryStore" searchAttr="Name" id="countryList" style="margin-left:10px;width:120px;vertical-align:middle;" hasDownArrow="true">
                     </div>
                     <button onclick="gotoCountryPage()" style="vertical-align:middle;">
                         Go
