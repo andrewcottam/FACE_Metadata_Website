@@ -9,7 +9,7 @@ html, body {
 
 .div2 {
     border: solid thin silver;
-    vertical-align:middle;
+    vertical-align: middle;
     overflow: hidden;
 }
 
@@ -17,22 +17,37 @@ html, body {
     display: inline;
     float: right;
     vertical-align: middle;
-    height:80px;
-    width:80px;
+    height: 80px;
+    width: 80px;
+}
+
+#preLoader {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    background: #fff;
+    z-index: 999;
 }
 
 #map_canvas {
     width: 400px;
     height: 350px;
 }
-.an{
-  margin-left:10px;
+
+.an {
+    margin-left: 10px;
 }
-.qu{
-  width:100px;
+
+.qu {
+    width: 100px;
 }
-.org{
-  font-size:13px;
-  vertical-align:middle;
-  margin:15px 5px 5px 5px;
+
+.org {
+    font-size: 13px;
+    vertical-align: middle;
+    margin: 15px 5px 5px 5px;
 }

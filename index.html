@@ -6,7 +6,7 @@
         <title>FACE Website</title>
         <script type="text/javascript" src="http://www.google.com/jsapi">
         </script>
-        <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/dojo/1.6/dojo/dojo.xd.js" djConfig="parseOnLoad: true">
+        <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/dojo/1.6/dojo/dojo.xd.js">
         </script>
         <link rel="stylesheet" type="text/css" href="http://code.google.com/apis/maps/documentation/javascript/examples/default.css"/>
         <link rel="stylesheet" type="text/css" href="http://ajax.googleapis.com/ajax/libs/dojo/1.6/dijit/themes/tundra/tundra.css"/>
@@ -23,6 +23,8 @@
                 dojo.io.script.get({
                     url: "http://www.google.com/fusiontables/api/query?sql=select%20ISO_2DIGIT,Name%20from%201027027%20order%20by%20Name&jsonCallback=doneCountries"
                 });
+                dojo.parser.parse();
+                dojo.style("preLoader", "display", "none");
             }
             
             function done(results){
@@ -120,8 +122,8 @@
                     If you are interested in a particular bird species, please select the it from the list below:
                 </p>
                 <div style="vertical-align:middle;">
-                    <div dojoType="dijit.form.ComboBox" store="speciesStore" searchAttr="Scientific" id="speciesList" style="margin-left:10px;width:310px;vertical-align:middle;">
-                    </div>
+                    <select dojoType="dijit.form.ComboBox" store="speciesStore" searchAttr="Scientific" id="speciesList" style="margin-left:10px;width:310px;vertical-align:middle;">
+                    </select>
                     <button onclick="gotoSpeciesPage()" style="vertical-align:middle;">
                         Go
                     </button>
@@ -131,13 +133,14 @@
                     If you are interested in a particular country, please select the it from the list below:
                 </p>
                 <div style="vertical-align:middle;">
-                    <div dojoType="dijit.form.ComboBox" store="countryStore" searchAttr="Name" id="countryList" style="margin-left:10px;width:120px;vertical-align:middle;" hasDownArrow="true">
-                    </div>
+                    <select dojoType="dijit.form.ComboBox" store="countryStore" searchAttr="Name" id="countryList" style="margin-left:10px;width:120px;vertical-align:middle;" hasDownArrow="true">
+                    </select>
                     <button onclick="gotoCountryPage()" style="vertical-align:middle;">
                         Go
                     </button>
                 </div>
             </div>
         </div>
+        <div id="preLoader"/>
     </body>
 </html>
