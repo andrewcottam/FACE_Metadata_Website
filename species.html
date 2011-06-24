@@ -3,7 +3,7 @@
     <head>
         <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
         <meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
-        <title>Species page</title>
+        <title></title>
         <script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false">
         </script>
         <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/dojo/1.6/dojo/dojo.xd.js">
@@ -16,31 +16,60 @@
             dojo.require("dojox.grid.DataGrid");
             dojo.addOnLoad(onLoad);
             function onLoad(){
+                var queryParams = dojo.queryToObject(window.location.search.slice(1)); //get the query parameters
+                var id = queryParams["id"]; //get the id for the species
+                dojo.io.script.get({
+                    url: "http://www.google.com/fusiontables/api/query?sql=select%20Name%20from%201047197%20where%20SpeciesID=" + id + "%20order%20by%20Name&jsonCallback=done"
+                }); //get the data for the table
+                dojo.io.script.get({
+                    url: "http://www.google.com/fusiontables/api/query?sql=select%20Scientific,English%20from%201047173%20where%20ID=" + id + "&jsonCallback=doneSpecies"
+                }); //get the data for the species names
                 var centre = new google.maps.LatLng(53, 10);
                 var map = new google.maps.Map(document.getElementById('map_canvas'), {
                     center: centre,
                     zoom: 3,
-                    streetViewControl:false,
-                    mapTypeId: 'terrain'
+                    streetViewControl: false
                 });
-                var queryParams = dojo.queryToObject(window.location.search.slice(1)); //get the query parameters
-                var id = queryParams["id"]; //get the id for the species
                 var layer = new google.maps.FusionTablesLayer({
                     query: {
                         select: 'geometry',
-                        from: '1027042',
+                        from: '1047413',
                         where: "SpeciesID=" + parseInt(id)
                     }
                 });
+                var styles = [{
+                    featureType: "poi",
+                    elementType: "all",
+                    stylers: [{
+                        visibility: "off"
+                    }]
+                }, {
+                    featureType: "water",
+                    elementType: "all",
+                    stylers: [{
+                        visibility: "simplified"
+                    }]
+                }, {
+                    featureType: "water",
+                    elementType: "all",
+                    stylers: [{
+                        invert_lightness: true
+                    }]
+                }, {
+                    featureType: "all",
+                    elementType: "all",
+                    stylers: []
+                }];
+                var styledMapOptions = {
+                    map: map,
+                    name: "tips4phpHip-Hop"
+                };
+                var testmap = new google.maps.StyledMapType(styles, styledMapOptions);
+                map.mapTypes.set('tips4php', testmap);
+                map.setMapTypeId('tips4php');
                 layer.setMap(map);
-                dojo.io.script.get({
-                    url: "http://www.google.com/fusiontables/api/query?sql=select%20Name%20from%201027051%20where%20SpeciesID=" + id + "%20order%20by%20Name&jsonCallback=done"
-                });
-                dojo.io.script.get({
-                    url: "http://www.google.com/fusiontables/api/query?sql=select%20Scientific,English%20from%201009501%20where%20ID=" + id + "&jsonCallback=doneSpecies"
-                });
-                dojo.parser.parse();
-                dojo.style("preLoader", "display", "none");
+                dojo.parser.parse(); //create the page content now that dojo has loaded
+                dojo.style("preLoader", "display", "none"); //hide the preloader
             }
             
             function done(results){
@@ -76,7 +105,8 @@
             
             function doneSpecies(results){
                 var rows = results.table.rows;
-                dojo.byId("speciesName").innerHTML = rows[0][0] + " (" + rows[0][1] + ")";
+                dojo.doc.title = rows[0][0] + " (" + rows[0][1] + ")"
+                dojo.byId("speciesName").innerHTML = "<i>" + rows[0][0] + "</i> (" + rows[0][1] + ")";
                 dojo.byId("content").style.visibility = "visible";
             }
         </script>
@@ -90,10 +120,12 @@
             </div>
             <div style="margin:10px;visibility:hidden;" id="content">
                 <h2 id="speciesName"></h2>
-                <div id="map_canvas">
-                </div>
                 <h3>Countries where this species is hunted:</h3>
-                <div id="gridContainer">
+                <div class="indent">
+                    <div id="map_canvas">
+                    </div>
+                    <div id="gridContainer" style="padding-top:15px;">
+                    </div>
                 </div>
             </div>
         </div>

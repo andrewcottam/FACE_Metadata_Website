@@ -19,13 +19,13 @@
                 var queryParams = dojo.queryToObject(window.location.search.slice(1)); //get the query parameters
                 var country = queryParams["country"]; //get the ID_NO for the species
                 dojo.io.script.get({
-                    url: "http://www.google.com/fusiontables/api/query?sql=select%20Scientific,English%20from%201027068%20where%20Code='" + country + "'%20order%20by%20Scientific&jsonCallback=done"
+                    url: "http://www.google.com/fusiontables/api/query?sql=select%20Scientific,English%20from%201047416%20where%20Code='" + country + "'%20order%20by%20Scientific&jsonCallback=done"
                 });
                 dojo.io.script.get({
-                    url: "http://www.google.com/fusiontables/api/query?sql=select%20*%20from%201014134%20where%20Code='" + country + "'&jsonCallback=doneQuestionnaire"
+                    url: "http://www.google.com/fusiontables/api/query?sql=select%20*%20from%201046889%20where%20Code='" + country + "'&jsonCallback=doneQuestionnaire"
                 });
                 dojo.io.script.get({
-                    url: "http://www.google.com/fusiontables/api/query?sql=select%20*%20from%201031864%20where%20Code='" + country + "'&jsonCallback=doneContacts"
+                    url: "http://www.google.com/fusiontables/api/query?sql=select%20*%20from%201047247%20where%20Code='" + country + "'&jsonCallback=doneContacts"
                 });
             }
             
@@ -89,27 +89,33 @@
             <div style="margin:10px;visibility:hidden;" id="content">
                 <h2 id="countryName"></h2>
                 <h3>FACE Members:</h3>
-                <div id="contacts">
-                    <div data-template>
-                        <div class="org">
-                            <img src="{{[11]}}" style="vertical-align:middle;max-height:70px;max-width:70px"/>
-                            <div style="vertical-align:middle;display:inline">{{[2]}}</div>
-                        </div>
-                        <div>
-                            <img src="images/address.png" style="padding-right:10px"/>{{[3]}}
-                        </div>
-                        <div>
-                            <img src="images/icon-tel.png" style="padding-right:10px"/>{{[4]}}
-                        </div>
-                        <div>
-                            <img src="images/icon_fax.gif" style="padding-right:10px"/>{{[5]}}
-                        </div>
-                        <div>
-                           <img src="images/icon_mail.gif" style="padding-right:10px"/> <a href="mailto:{{[6]}}"/>{{[6]}}</a>
+                <div class="indent">
+                    <div id="contacts">
+                        <div data-template class="card">
+                            <div class="org">
+                                <img src="{{[11]}}" style="vertical-align:middle;max-height:70px;max-width:70px"/>
+                                <div style="vertical-align:middle;display:inline">
+                                    {{[2]}}
+                                </div>
+                            </div>
+                            <div class="details">
+                                <div>
+                                    <img src="images/address.png" style="padding-right:10px"/>{{[3]}}
+                                </div>
+                                <div>
+                                    <img src="images/icon-tel.png" style="padding-right:10px"/>{{[4]}}
+                                </div>
+                                <div>
+                                    <img src="images/icon_fax.gif" style="padding-right:10px"/>{{[5]}}
+                                </div>
+                                <div>
+                                <img src="images/icon_mail.gif" style="padding-right:10px"/><a href="mailto:{{[6]}}"/>{{[6]}}</a>
+                            </div>
                         </div>
                     </div>
                 </div>
-                <h3>Recording of hunting statistics:</h3>
+            </div><h3>Recording of hunting statistics:</h3>
+            <div class="indent">
                 <div>
                     <span class="qu">Is there a bag data scheme in your country:</span>
                     <span id="c2" class="an"></span>
@@ -162,10 +168,13 @@
                     <span class="qu">Publication of statistics:</span>
                     <span id="c14" class="an"></span>
                 </div>
-                <h3>Bird species that are hunted:</h3>
+            </div>
+            <h3>Bird species that are hunted:</h3>
+            <div class="indent">
                 <div id="gridContainer">
                 </div>
             </div>
+        </div>
         </div>
     </body>
 </html>
