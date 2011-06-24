@@ -19,7 +19,7 @@
                 var queryParams = dojo.queryToObject(window.location.search.slice(1)); //get the query parameters
                 var country = queryParams["country"]; //get the ID_NO for the species
                 dojo.io.script.get({
-                    url: "http://www.google.com/fusiontables/api/query?sql=select%20Scientific,English%20from%201047416%20where%20Code='" + country + "'%20order%20by%20Scientific&jsonCallback=done"
+                    url: "http://www.google.com/fusiontables/api/query?sql=select%20Scientific,English,'BD%20I','BD%20II-1','BD%20II-2','BD%20III-1','BD%20III-2','Bonn%20III','Bern%20II'%20from%201047661%20where%20Code='" + country + "'%20order%20by%20Scientific&jsonCallback=done"
                 });
                 dojo.io.script.get({
                     url: "http://www.google.com/fusiontables/api/query?sql=select%20*%20from%201046889%20where%20Code='" + country + "'&jsonCallback=doneQuestionnaire"
@@ -35,7 +35,14 @@
                 dojo.forEach(rows, function(row, i){
                     items.push({
                         Scientific: row[0],
-                        English: row[1]
+                        English: row[1],
+                        'BD I':row[2],
+                        'BD II-1':row[3],
+                        'BD II-2':row[4],
+                        'BD III-1':row[5],
+                        'BD III-2':row[6],
+                        'Bonn III':row[7],
+                        'Bern II':row[8]
                     });
                 });
                 speciesStore.data = {
@@ -45,10 +52,12 @@
                 };
                 var cols = [];
                 dojo.forEach(results.table.cols, function(column, i){
+                    var width;
+                    (i<2) ? width="150px" : width="50px";
                     cols.push({
                         field: column,
                         name: column,
-                        width: "150px"
+                        width: width
                     });
                 });
                 var grid = new dojox.grid.DataGrid({

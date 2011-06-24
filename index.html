@@ -18,10 +18,10 @@
             dojo.addOnLoad(onLoad);
             function onLoad(){
                 dojo.io.script.get({
-                    url: "http://www.google.com/fusiontables/api/query?sql=select%20ID,Scientific,English%20from%201047173%20order%20by%20Scientific&jsonCallback=done"
+                    url: "http://www.google.com/fusiontables/api/query?sql=select%20ID,Scientific,English%20from%201047652%20order%20by%20Scientific&jsonCallback=done"
                 });
                 dojo.io.script.get({
-                    url: "http://www.google.com/fusiontables/api/query?sql=select%20ISO_2DIGIT,Name%20from%201047404%20order%20by%20Name&jsonCallback=doneCountries"
+                    url: "http://www.google.com/fusiontables/api/query?sql=select%20ISO_2DIGIT,Name%20from%201047404%20where%20'Show%20in%20drop%20down'='y'%20order%20by%20Name&jsonCallback=doneCountries"
                 });
                 dojo.parser.parse();
                 dojo.style("preLoader", "display", "none");

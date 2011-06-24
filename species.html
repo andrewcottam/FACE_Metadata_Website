@@ -22,7 +22,7 @@
                     url: "http://www.google.com/fusiontables/api/query?sql=select%20Name%20from%201047197%20where%20SpeciesID=" + id + "%20order%20by%20Name&jsonCallback=done"
                 }); //get the data for the table
                 dojo.io.script.get({
-                    url: "http://www.google.com/fusiontables/api/query?sql=select%20Scientific,English%20from%201047173%20where%20ID=" + id + "&jsonCallback=doneSpecies"
+                    url: "http://www.google.com/fusiontables/api/query?sql=select%20Scientific,English%20from%201047652%20where%20ID=" + id + "&jsonCallback=doneSpecies"
                 }); //get the data for the species names
                 var centre = new google.maps.LatLng(53, 10);
                 var map = new google.maps.Map(document.getElementById('map_canvas'), {
