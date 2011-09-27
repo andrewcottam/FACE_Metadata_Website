@@ -18,7 +18,10 @@
             dojo.addOnLoad(onLoad);
             function onLoad(){
                 dojo.io.script.get({
-                    url: "http://www.google.com/fusiontables/api/query?sql=select%20ID,Scientific,English%20from%201047652%20where%20ID%3e-1%20order%20by%20Scientific&jsonCallback=done"
+                    url: "http://www.google.com/fusiontables/api/query?sql=select%20ID,Scientific,English%20from%201047652%20where%20Taxa='Bird'%20order%20by%20Scientific&jsonCallback=done"
+                });
+                dojo.io.script.get({
+                    url: "http://www.google.com/fusiontables/api/query?sql=select%20ID,Scientific,English%20from%201047652%20where%20Taxa='Mammal'%20order%20by%20Scientific&jsonCallback=doneMammals"
                 });
                 dojo.io.script.get({
                     url: "http://www.google.com/fusiontables/api/query?sql=select%20ISO_2DIGIT,Name%20from%201047404%20where%20'Show%20in%20drop%20down'='y'%20order%20by%20Name&jsonCallback=doneCountries"
@@ -43,6 +46,22 @@
                 };
             }
             
+            function doneMammals(results){
+                var rows = results.table.rows;
+                var items = [];
+                dojo.forEach(rows, function(row, i){
+                    items.push({
+                        Scientific: row[1] + " (" + row[2] + ")",
+                        ID: row[0]
+                    });
+                });
+                mammalStore.data = {
+                    identifier: "ID",
+                    label: "Scientific",
+                    items: items
+                };
+            }
+            
             function doneCountries(results){
                 var rows = results.table.rows;
                 var items = [];
@@ -59,8 +78,8 @@
                 };
             }
             
-            function gotoSpeciesPage(){
-                var input = dijit.byId("speciesList");
+            function gotoSpeciesPage(id){
+                var input = dijit.byId(id);
                 var selectedId;
                 input.store.fetch({
                     query: {
@@ -99,6 +118,8 @@
     <body class="tundra">
         <div dojoType="dojo.data.ItemFileReadStore" jsId="speciesStore">
         </div>
+        <div dojoType="dojo.data.ItemFileReadStore" jsId="mammalStore">
+        </div>
         <div dojoType="dojo.data.ItemFileReadStore" jsId="countryStore">
         </div>
         <div class="div1">
@@ -121,10 +142,19 @@
                 <p>
                     If you are interested in a particular species, please select the it from the list below:
                 </p>
+                <h3>Birds</h3>
                 <div style="vertical-align:middle;">
                     <select dojoType="dijit.form.ComboBox" store="speciesStore" searchAttr="Scientific" id="speciesList" style="margin-left:10px;width:310px;vertical-align:middle;">
                     </select>
-                    <button onclick="gotoSpeciesPage()" style="vertical-align:middle;">
+                    <button onclick="gotoSpeciesPage('speciesList')" style="vertical-align:middle;">
+                        Go
+                    </button>
+                </div>
+                <h3>Mammals</h3>
+                <div style="vertical-align:middle;">
+                    <select dojoType="dijit.form.ComboBox" store="mammalStore" searchAttr="Scientific" id="mammalList" style="margin-left:10px;width:310px;vertical-align:middle;">
+                    </select>
+                    <button onclick="gotoSpeciesPage('mammalList')" style="vertical-align:middle;">
                         Go
                     </button>
                 </div>
