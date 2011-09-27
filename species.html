@@ -22,7 +22,7 @@
                     url: "http://www.google.com/fusiontables/api/query?sql=select%20Name%20from%201047197%20where%20SpeciesID=" + id + "%20order%20by%20Name&jsonCallback=done"
                 }); //get the data for the table
                 dojo.io.script.get({
-                    url: "http://www.google.com/fusiontables/api/query?sql=select%20Scientific,English%20from%201047652%20where%20ID=" + id + "&jsonCallback=doneSpecies"
+                    url: "http://www.google.com/fusiontables/api/query?sql=select%20Scientific,English,Distribution,Movements,Habitats,German,French%20from%201047652%20where%20ID=" + id + "&jsonCallback=doneSpecies"
                 }); //get the data for the species names
                 var centre = new google.maps.LatLng(53, 10);
                 var map = new google.maps.Map(document.getElementById('map_canvas'), {
@@ -105,8 +105,27 @@
             
             function doneSpecies(results){
                 var rows = results.table.rows;
-                dojo.doc.title = rows[0][0] + " (" + rows[0][1] + ")"
-                dojo.byId("speciesName").innerHTML = "<i>" + rows[0][0] + "</i> (" + rows[0][1] + ")";
+                dojo.doc.title = rows[0][0] + " (" + rows[0][1] + ")";
+                if (rows[0][5]!="")
+                {
+                  german=", " + rows[0][5]
+                }
+                  else
+                {
+                  german=""
+                }
+                if (rows[0][6]!="")
+                {
+                  french=", " + rows[0][6]
+                }
+                  else
+                {
+                  french=""
+                }
+                dojo.byId("speciesName").innerHTML = "<i>" + rows[0][0] + "</i> (" + rows[0][1] + german + french + ")";
+                dojo.byId("distribution").innerHTML = rows[0][2];
+                dojo.byId("movements").innerHTML = rows[0][3];
+                dojo.byId("habitats").innerHTML = rows[0][4];
                 dojo.byId("content").style.visibility = "visible";
             }
         </script>
@@ -120,6 +139,12 @@
             </div>
             <div style="margin:10px;visibility:hidden;" id="content">
                 <h2 id="speciesName"></h2>
+                <h3>Distribution</h3>
+                <p id="distribution"></p>
+                <h3>Movements</h3>
+                <p id="movements"></p>
+                <h3>Habitats</h3>
+                <p id="habitats"></p>
                 <h3>Countries where this species is hunted in open season:</h3>
                 <div class="indent">
                     <div id="map_canvas">
@@ -127,6 +152,7 @@
                     <div id="gridContainer" style="padding-top:15px;">
                     </div>
                 </div>
+            <a href='index.html'>Return to Search Page</a>
             </div>
         </div>
         <div id="preLoader"/>

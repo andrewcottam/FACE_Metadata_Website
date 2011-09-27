@@ -19,7 +19,10 @@
                 var queryParams = dojo.queryToObject(window.location.search.slice(1)); //get the query parameters
                 var country = queryParams["country"]; //get the ID_NO for the species
                 dojo.io.script.get({
-                    url: "http://www.google.com/fusiontables/api/query?sql=select%20Scientific,English,'BD%20I','BD%20II-1','BD%20II-2','BD%20III-1','BD%20III-2','Bonn%20III','Bern%20II'%20from%201047661%20where%20Code='" + country + "'%20order%20by%20Scientific&jsonCallback=done"
+                    url: "http://www.google.com/fusiontables/api/query?sql=select%20Scientific,English,'BD%20I','BD%20II-1','BD%20II-2','BD%20III-1','BD%20III-2','Bonn%20III','Bern%20II'%20from%201647123%20where%20Code='" + country + "'%20AND%20Taxa='Bird'%20order%20by%20Scientific&jsonCallback=done"
+                });
+                dojo.io.script.get({
+                    url: "http://www.google.com/fusiontables/api/query?sql=select%20Scientific,English,HSD,'Bern%20II'%20from%201647123%20where%20Code='" + country + "'%20AND%20Taxa='Mammal'%20order%20by%20Scientific&jsonCallback=doneMammal"
                 });
                 dojo.io.script.get({
                     url: "http://www.google.com/fusiontables/api/query?sql=select%20*%20from%201046889%20where%20Code='" + country + "'&jsonCallback=doneQuestionnaire"
@@ -66,10 +69,57 @@
                     autoHeight: true,
                     autoWidth: true
                 }, document.createElement('div'));
-                dojo.byId("gridContainer").appendChild(grid.domNode);
+                dojo.byId("birdGridContainer").appendChild(grid.domNode);
                 grid.startup();
             }
             
+            function doneMammal(results){
+                var rows = results.table.rows;
+                var items = [];
+                dojo.forEach(rows, function(row, i){
+                    items.push({
+                        Scientific: row[0],
+                        English: row[1],
+                        HSD: row[2],
+                        'Bern II':row[3]
+                    });
+                });
+                mammalStore.data = {
+                    identifier: "Scientific",
+                    label: "Scientific",
+                    items: items
+                };
+                var cols = [];
+                cols.push({
+                  field: 'Scientific',
+                  name: 'Scientific',
+                  width: '150px'
+                });
+                cols.push({
+                  field: 'English',
+                  name: 'English',
+                  width: '150px'
+                });
+                cols.push({
+                  field: 'HSD',
+                  name: 'HSD',
+                  width: '170px'
+                });
+                cols.push({
+                  field: 'Bern II',
+                  name: 'Bern',
+                  width: '150px'
+                });
+                var grid = new dojox.grid.DataGrid({
+                    store: mammalStore,
+                    structure: cols,
+                    autoHeight: true,
+                    autoWidth: true
+                }, document.createElement('div'));
+                dojo.byId("mammalGridContainer").appendChild(grid.domNode);
+                grid.startup();
+            }
+
             function doneQuestionnaire(results){
                 var rows = results.table.rows;
                 var value;
@@ -91,13 +141,15 @@
     <body class="tundra">
         <div dojoType="dojo.data.ItemFileReadStore" jsId="speciesStore">
         </div>
+        <div dojoType="dojo.data.ItemFileReadStore" jsId="mammalStore">
+        </div>
         <div class="div1">
             <div class="div2">
                 <img src="images/face.gif" alt="FACE logo" class="faceLogo"/><h1 style="padding:10px">FACE Metadata Website</h1>
             </div>
             <div style="margin:10px;visibility:hidden;" id="content">
                 <h2 id="countryName"></h2>
-                <h3>FACE Members:</h3>
+                <h3>FACE Member:</h3>
                 <div class="indent">
                     <div id="contacts">
                         <div data-template class="card">
@@ -179,10 +231,17 @@
                 </div>
             </div>
             <h3>Species that are hunted in open season:</h3>
+            <h4>Birds</h4>
             <div class="indent">
-                <div id="gridContainer">
+                <div id="birdGridContainer">
                 </div>
             </div>
+            <h4>Mammals</h4>
+            <div class="indent">
+                <div id="mammalGridContainer">
+                </div>
+            </div>
+            <a href='index.html'>Return to Search Page</a>
         </div>
         </div>
     </body>
