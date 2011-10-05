@@ -14,7 +14,7 @@
         <script type="text/javascript">
             dojo.require("dojo.data.ItemFileReadStore");
             dojo.require("dijit.form.ComboBox");
-            dojo.require("dojo.io.script"); 
+            dojo.require("dojo.io.script");
             dojo.addOnLoad(onLoad);
             function onLoad(){
                 dojo.io.script.get({
@@ -41,6 +41,7 @@
                     label: "Scientific",
                     items: items
                 };
+                speciesStore.close();
             }
             
             function doneCountries(results){
@@ -57,6 +58,7 @@
                     label: "Name",
                     items: items
                 };
+                countryStore.close();
             }
             
             function gotoSpeciesPage(){
@@ -97,9 +99,9 @@
         </script>
     </head>
     <body class="tundra">
-        <div dojoType="dojo.data.ItemFileReadStore" jsId="speciesStore">
+        <div dojoType="dojo.data.ItemFileReadStore" jsId="speciesStore" urlPreventCache="true">
         </div>
-        <div dojoType="dojo.data.ItemFileReadStore" jsId="countryStore">
+        <div dojoType="dojo.data.ItemFileReadStore" jsId="countryStore" urlPreventCache="true">
         </div>
         <div class="div1">
             <div class="div2">
