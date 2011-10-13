@@ -6,7 +6,7 @@
         <title>FACE Website</title>
         <script type="text/javascript" src="http://www.google.com/jsapi">
         </script>
-        <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/dojo/1.6/dojo/dojo.xd.js">
+        <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/dojo/1.6/dojo/dojo.xd.js" djConfig="parseOnLoad: true">
         </script>
         <link rel="stylesheet" type="text/css" href="http://code.google.com/apis/maps/documentation/javascript/examples/default.css"/>
         <link rel="stylesheet" type="text/css" href="http://ajax.googleapis.com/ajax/libs/dojo/1.6/dijit/themes/tundra/tundra.css"/>
@@ -36,11 +36,15 @@
                         ID: row[0]
                     });
                 });
-                speciesStore.data = {
+                var dataItems = {
                     identifier: "ID",
                     label: "Scientific",
                     items: items
                 };
+                var store = new dojo.data.ItemFileReadStore({
+                    data: dataItems
+                });
+                dijit.byId("speciesList").store = store;
             }
             
             function doneCountries(results){
@@ -52,11 +56,15 @@
                         ISO_2DIGIT: row[0]
                     });
                 });
-                countryStore.data = {
+                dataItems = {
                     identifier: "ISO_2DIGIT",
                     label: "Name",
                     items: items
                 };
+                var store = new dojo.data.ItemFileReadStore({
+                    data: dataItems
+                });
+                dijit.byId("countryList").store = store;
             }
             
             function gotoSpeciesPage(){
@@ -75,7 +83,6 @@
                     }
                 });
                 window.location = "species.html?id=" + selectedId.toString();
-                speciesStore.close();
             }
             
             function gotoCountryPage(){
@@ -98,10 +105,6 @@
         </script>
     </head>
     <body class="tundra">
-        <div dojoType="dojo.data.ItemFileReadStore" jsId="speciesStore">
-        </div>
-        <div dojoType="dojo.data.ItemFileReadStore" jsId="countryStore">
-        </div>
         <div class="div1">
             <div class="div2">
                 <img src="images/face.gif" alt="FACE logo" class="faceLogo"/><h1 style="padding:10px">FACE Metadata Website</h1>
@@ -123,7 +126,7 @@
                     If you are interested in a particular species, please select the it from the list below:
                 </p>
                 <div style="vertical-align:middle;">
-                    <select dojoType="dijit.form.ComboBox" store="speciesStore" searchAttr="Scientific" id="speciesList" style="margin-left:10px;width:310px;vertical-align:middle;">
+                    <select dojoType="dijit.form.ComboBox" searchAttr="Scientific" id="speciesList" style="margin-left:10px;width:310px;vertical-align:middle;">
                     </select>
                     <button onclick="gotoSpeciesPage()" style="vertical-align:middle;">
                         Go
@@ -134,7 +137,7 @@
                     If you are interested in a particular country, please select the it from the list below:
                 </p>
                 <div style="vertical-align:middle;">
-                    <select dojoType="dijit.form.ComboBox" store="countryStore" searchAttr="Name" id="countryList" style="margin-left:10px;width:120px;vertical-align:middle;" hasDownArrow="true">
+                    <select dojoType="dijit.form.ComboBox" searchAttr="Name" id="countryList" style="margin-left:10px;width:120px;vertical-align:middle;" hasDownArrow="true">
                     </select>
                     <button onclick="gotoCountryPage()" style="vertical-align:middle;">
                         Go
