@@ -19,21 +19,21 @@
                 var queryParams = dojo.queryToObject(window.location.search.slice(1)); //get the query parameters
                 var country = queryParams["country"]; //get the ID_NO for the species
                 dojo.io.script.get({
-                    url: "http://www.google.com/fusiontables/api/query?sql=select%20Scientific,English,'BD%20I','BD%20II-1','BD%20II-2','BD%20III-1','BD%20III-2','Bonn%20III','Bern%20II'%20from%201647123%20where%20Code='" + country + "'%20AND%20Taxa='Bird'%20order%20by%20Scientific&jsonCallback=done"
+                    url: "https://www.googleapis.com/fusiontables/v1/query?sql=select%20Scientific,English,'BD%20I','BD%20II-1','BD%20II-2','BD%20III-1','BD%20III-2','Bonn%20III','Bern%20II'%20from%201fN-Rkw-1vkrkaAf-GTPYpAGOlhldwKEuIkRyHtQ%20where%20Code='" + country + "'%20AND%20Taxa='Bird'%20order%20by%20Scientific&callback=done&key=AIzaSyCmVSYlL4ax_pMlOF-MG43_RPg6Cwq5yJM"
                 });
                 dojo.io.script.get({
-                    url: "http://www.google.com/fusiontables/api/query?sql=select%20Scientific,English,HSD,'Bern%20II'%20from%201647123%20where%20Code='" + country + "'%20AND%20Taxa='Mammal'%20order%20by%20Scientific&jsonCallback=doneMammal"
+                    url: "https://www.googleapis.com/fusiontables/v1/query?sql=select%20Scientific,English,HSD,'Bern%20II'%20from%201fN-Rkw-1vkrkaAf-GTPYpAGOlhldwKEuIkRyHtQ%20where%20Code='" + country + "'%20AND%20Taxa='Mammal'%20order%20by%20Scientific&callback=doneMammal&key=AIzaSyCmVSYlL4ax_pMlOF-MG43_RPg6Cwq5yJM"
                 });
                 dojo.io.script.get({
-                    url: "http://www.google.com/fusiontables/api/query?sql=select%20*%20from%201046889%20where%20Code='" + country + "'&jsonCallback=doneQuestionnaire"
+                    url: "https://www.googleapis.com/fusiontables/v1/query?sql=select%20*%20from%201iCrqZWc_qFNUJJK1LAwvdGsFrHe0QMSwMTXFU2k%20where%20Code='" + country + "'&callback=doneQuestionnaire&key=AIzaSyCmVSYlL4ax_pMlOF-MG43_RPg6Cwq5yJM"
                 });
                 dojo.io.script.get({
-                    url: "http://www.google.com/fusiontables/api/query?sql=select%20*%20from%201047247%20where%20Code='" + country + "'&jsonCallback=doneContacts"
+                    url: "https://www.googleapis.com/fusiontables/v1/query?sql=select%20*%20from%201nDJbKqHBuvjQJ2iln6PnTegNpHIgbh6TfO1U-_o%20where%20Code='" + country + "'&callback=doneContacts&key=AIzaSyCmVSYlL4ax_pMlOF-MG43_RPg6Cwq5yJM"
                 });
             }
             
             function done(results){
-                var rows = results.table.rows;
+                var rows = results.rows;
                 var items = [];
                 dojo.forEach(rows, function(row, i){
                     items.push({
@@ -54,7 +54,7 @@
                     items: items
                 };
                 var cols = [];
-                dojo.forEach(results.table.cols, function(column, i){
+                dojo.forEach(results.columns, function(column, i){
                     var width;
                     (i<2) ? width="150px" : width="50px";
                     cols.push({
@@ -74,7 +74,7 @@
             }
             
             function doneMammal(results){
-                var rows = results.table.rows;
+                var rows = results.rows;
                 var items = [];
                 dojo.forEach(rows, function(row, i){
                     items.push({
@@ -121,10 +121,10 @@
             }
 
             function doneQuestionnaire(results){
-                var rows = results.table.rows;
+                var rows = results.rows;
                 var value;
                 dojo.byId("countryName").innerHTML = rows[0][1];
-                dojo.forEach(results.table.cols, function(column, i){
+                dojo.forEach(results.columns, function(column, i){
                     if (i > 1) {
                         value = rows[0][i];
                         (value) ? dojo.byId("c" + i.toString()).innerHTML = rows[0][i] : dojo.byId("c" + i.toString()).innerHTML = "Unknown";
@@ -134,7 +134,7 @@
             }
             
             function doneContacts(results){
-                Tempo.prepare("contacts").render(results.table.rows);
+                Tempo.prepare("contacts").render(results.rows);
             }
         </script>
     </head>

@@ -21,12 +21,12 @@
             dojo.addOnLoad(onLoad);
             function onLoad(){
                 dojo.io.script.get({
-                    url: "http://www.google.com/fusiontables/api/query?sql=select%20*%20from%201046889%20order%20by%20Code&jsonCallback=done"
+                    url: "https://www.googleapis.com/fusiontables/v1/query?sql=select%20*%20from%201iCrqZWc_qFNUJJK1LAwvdGsFrHe0QMSwMTXFU2k%20order%20by%20Code&callback=done&key=AIzaSyCmVSYlL4ax_pMlOF-MG43_RPg6Cwq5yJM"
                 });
             }
             
             function done(results){
-                var rows = results.table.rows;
+                var rows = results.rows;
                 var items = [];
                 dojo.forEach(rows, function(row, i){
                     items.push({
@@ -53,7 +53,7 @@
                     items: items
                 };
                 var cols = [];
-                dojo.forEach(results.table.cols, function(column, i){
+                dojo.forEach(results.columns, function(column, i){
                     cols.push({
                         field: "col" + i.toString(),
                         name: column

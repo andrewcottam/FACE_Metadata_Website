@@ -1,150 +1,144 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
-        <meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
-        <title>FACE Website</title>
-        <script type="text/javascript" src="http://www.google.com/jsapi">
-        </script>
-        <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/dojo/1.6/dojo/dojo.xd.js" djConfig="parseOnLoad: true">
-        </script>
-        <link rel="stylesheet" type="text/css" href="http://code.google.com/apis/maps/documentation/javascript/examples/default.css"/>
-        <link rel="stylesheet" type="text/css" href="http://ajax.googleapis.com/ajax/libs/dojo/1.6/dijit/themes/tundra/tundra.css"/>
-        <link rel="stylesheet" type="text/css" href="styles/styles.css">
-        <script type="text/javascript">
-            dojo.require("dojo.data.ItemFileReadStore");
-            dojo.require("dijit.form.ComboBox");
-            dojo.require("dojo.io.script");
-            dojo.addOnLoad(onLoad);
-            function onLoad(){
-                dojo.io.script.get({
-                    url: "http://www.google.com/fusiontables/api/query?sql=select%20ID,Scientific,English%20from%201047652%20where%20ID%3e-1%20order%20by%20Scientific&jsonCallback=done"
-                });
-                dojo.io.script.get({
-                    url: "http://www.google.com/fusiontables/api/query?sql=select%20ISO_2DIGIT,Name%20from%201047404%20where%20'Show%20in%20drop%20down'='y'%20order%20by%20Name&jsonCallback=doneCountries"
-                });
-                dojo.parser.parse();
-                dojo.style("preLoader", "display", "none");
-            }
-            
-            function done(results){
-                var rows = results.table.rows;
-                var items = [];
-                dojo.forEach(rows, function(row, i){
-                    items.push({
-                        Scientific: row[1] + " (" + row[2] + ")",
-                        ID: row[0]
-                    });
-                });
-                var dataItems = {
-                    identifier: "ID",
-                    label: "Scientific",
-                    items: items
-                };
-                var store = new dojo.data.ItemFileReadStore({
-                    data: dataItems
-                });
-                dijit.byId("speciesList").store = store;
-            }
-            
-            function doneCountries(results){
-                var rows = results.table.rows;
-                var items = [];
-                dojo.forEach(rows, function(row, i){
-                    items.push({
-                        Name: row[1],
-                        ISO_2DIGIT: row[0]
-                    });
-                });
-                dataItems = {
-                    identifier: "ISO_2DIGIT",
-                    label: "Name",
-                    items: items
-                };
-                var store = new dojo.data.ItemFileReadStore({
-                    data: dataItems
-                });
-                dijit.byId("countryList").store = store;
-            }
-            
-            function gotoSpeciesPage(){
-                var input = dijit.byId("speciesList");
-                var selectedId;
-                input.store.fetch({
-                    query: {
-                        Scientific: input.attr("value")
-                    },
-                    onComplete: function(items, request){
-                        if (items.length == 0) {
-                        }
-                        else {
-                            selectedId = items[0].ID[0];
-                        }
-                    }
-                });
-                window.location = "species.html?id=" + selectedId.toString();
-            }
-            
-            function gotoCountryPage(){
-                var input = dijit.byId("countryList");
-                var selectedId;
-                input.store.fetch({
-                    query: {
-                        Name: input.attr("value")
-                    },
-                    onComplete: function(items, request){
-                        if (items.length == 0) {
-                        }
-                        else {
-                            selectedId = items[0].ISO_2DIGIT[0];
-                        }
-                    }
-                });
-                window.location = "country.html?country=" + selectedId;
-            }
-        </script>
-    </head>
-    <body class="tundra">
-        <div class="div1">
-            <div class="div2">
-                <img src="images/face.gif" alt="FACE logo" class="faceLogo"/><h1 style="padding:10px">FACE Metadata Website</h1>
-            </div>
-            <div style="margin:10px;">
-                <p>
-                    The FACE Metadata website brings together information on hunting of species within the European Union to help fulfil the following functions:
-                </p>
-                <ul>
-                    <li>
-                        Describe what bag data systems exist where, who is in charge of them, how can they be contacted and what info is available and where to access it.
-                    </li>
-                    <li>
-                        Describe what species or populations are hunted where and who collects what type of bag data on them.
-                    </li>
-                </ul>
-                <h2>Species</h2>
-                <p>
-                    If you are interested in a particular species, please select the it from the list below:
-                </p>
-                <div style="vertical-align:middle;">
-                    <select dojoType="dijit.form.ComboBox" searchAttr="Scientific" id="speciesList" style="margin-left:10px;width:310px;vertical-align:middle;">
-                    </select>
-                    <button onclick="gotoSpeciesPage()" style="vertical-align:middle;">
-                        Go
-                    </button>
-                </div>
-                <h2>Countries</h2>
-                <p>
-                    If you are interested in a particular country, please select the it from the list below:
-                </p>
-                <div style="vertical-align:middle;">
-                    <select dojoType="dijit.form.ComboBox" searchAttr="Name" id="countryList" style="margin-left:10px;width:120px;vertical-align:middle;" hasDownArrow="true">
-                    </select>
-                    <button onclick="gotoCountryPage()" style="vertical-align:middle;">
-                        Go
-                    </button>
-                </div>
-            </div>
-        </div>
-        <div id="preLoader"/>
-    </body>
+	<head>
+		<meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+		<meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
+		<title>FACE Website</title>
+		<script type="text/javascript" src="http://www.google.com/jsapi"></script>
+		<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/dojo/1.6/dojo/dojo.xd.js" djConfig="parseOnLoad: true"></script>
+		<link rel="stylesheet" type="text/css" href="http://code.google.com/apis/maps/documentation/javascript/examples/default.css"/>
+		<link rel="stylesheet" type="text/css" href="http://ajax.googleapis.com/ajax/libs/dojo/1.6/dijit/themes/tundra/tundra.css"/>
+		<link rel="stylesheet" type="text/css" href="styles/styles.css">
+		<script type="text/javascript">
+			dojo.require("dojo.data.ItemFileReadStore");
+			dojo.require("dijit.form.ComboBox");
+			dojo.require("dojo.io.script");
+			dojo.addOnLoad(onLoad);
+			function onLoad() {
+				dojo.io.script.get({
+					url : "https://www.googleapis.com/fusiontables/v1/query?sql=select%20ID,Scientific,English%20from%201H5HAQq-4QwXYh8DaOBVYKJTIyQrq0QYRzom8K9o%20where%20ID%3e-1%20order%20by%20Scientific&key=AIzaSyCmVSYlL4ax_pMlOF-MG43_RPg6Cwq5yJM&callback=done"
+				});
+				dojo.io.script.get({
+					url : "https://www.googleapis.com/fusiontables/v1/query?sql=select%20ISO_2DIGIT,Name%20from%201qZ_GTj1UHRZ5e4RxRtww0-EH8qIjtFX-G-c3_gg%20where%20'Show%20in%20drop%20down'='y'%20order%20by%20Name&callback=doneCountries&key=AIzaSyCmVSYlL4ax_pMlOF-MG43_RPg6Cwq5yJM"
+				});
+				dojo.parser.parse();
+				dojo.style("preLoader", "display", "none");
+			}
+
+			function done(results) {
+				var rows = results.rows;
+				var items = [];
+				dojo.forEach(rows, function(row, i) {
+					items.push({
+						Scientific : row[1] + " (" + row[2] + ")",
+						ID : row[0]
+					});
+				});
+				var dataItems = {
+					identifier : "ID",
+					label : "Scientific",
+					items : items
+				};
+				var store = new dojo.data.ItemFileReadStore({
+					data : dataItems
+				});
+				dijit.byId("speciesList").store = store;
+			}
+
+			function doneCountries(results) {
+				var rows = results.rows;
+				var items = [];
+				dojo.forEach(rows, function(row, i) {
+					items.push({
+						Name : row[1],
+						ISO_2DIGIT : row[0]
+					});
+				});
+				dataItems = {
+					identifier : "ISO_2DIGIT",
+					label : "Name",
+					items : items
+				};
+				var store = new dojo.data.ItemFileReadStore({
+					data : dataItems
+				});
+				dijit.byId("countryList").store = store;
+			}
+
+			function gotoSpeciesPage() {
+				var input = dijit.byId("speciesList");
+				var selectedId;
+				input.store.fetch({
+					query : {
+						Scientific : input.attr("value")
+					},
+					onComplete : function(items, request) {
+						if (items.length == 0) {
+						} else {
+							selectedId = items[0].ID[0];
+						}
+					}
+				});
+				window.location = "species.html?id=" + selectedId.toString();
+			}
+
+			function gotoCountryPage() {
+				var input = dijit.byId("countryList");
+				var selectedId;
+				input.store.fetch({
+					query : {
+						Name : input.attr("value")
+					},
+					onComplete : function(items, request) {
+						if (items.length == 0) {
+						} else {
+							selectedId = items[0].ISO_2DIGIT[0];
+						}
+					}
+				});
+				window.location = "country.html?country=" + selectedId;
+			}
+		</script>
+	</head>
+	<body class="tundra">
+		<div class="div1">
+			<div class="div2">
+				<img src="images/face.gif" alt="FACE logo" class="faceLogo"/><h1 style="padding:10px">FACE Metadata Website</h1>
+			</div>
+			<div style="margin:10px;">
+				<p>
+					The FACE Metadata website brings together information on hunting of species within the European Union to help fulfil the following functions:
+				</p>
+				<ul>
+					<li>
+						Describe what bag data systems exist where, who is in charge of them, how can they be contacted and what info is available and where to access it.
+					</li>
+					<li>
+						Describe what species or populations are hunted where and who collects what type of bag data on them.
+					</li>
+				</ul>
+				<h2>Species</h2>
+				<p>
+					If you are interested in a particular species, please select the it from the list below:
+				</p>
+				<div style="vertical-align:middle;">
+					<select dojoType="dijit.form.ComboBox" searchAttr="Scientific" id="speciesList" style="margin-left:10px;width:310px;vertical-align:middle;"></select>
+					<button onclick="gotoSpeciesPage()" style="vertical-align:middle;">
+						Go
+					</button>
+				</div>
+				<h2>Countries</h2>
+				<p>
+					If you are interested in a particular country, then please select the it from the list below:
+				</p>
+				<div style="vertical-align:middle;">
+					<select dojoType="dijit.form.ComboBox" searchAttr="Name" id="countryList" style="margin-left:10px;width:120px;vertical-align:middle;" hasDownArrow="true"></select>
+					<button onclick="gotoCountryPage()" style="vertical-align:middle;">
+						Go
+					</button>
+				</div>
+			</div>
+		</div>
+		<div id="preLoader"/>
+	</body>
 </html>

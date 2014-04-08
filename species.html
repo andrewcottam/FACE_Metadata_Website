@@ -19,10 +19,10 @@
                 var queryParams = dojo.queryToObject(window.location.search.slice(1)); //get the query parameters
                 var id = queryParams["id"]; //get the id for the species
                 dojo.io.script.get({
-                    url: "http://www.google.com/fusiontables/api/query?sql=select%20Name%20from%201047197%20where%20SpeciesID=" + id + "%20order%20by%20Name&jsonCallback=done"
+                    url: "https://www.googleapis.com/fusiontables/v1/query?sql=select%20Name%20from%2012T7URKlPFTvV7OUpzMGqtSmtARNExi-AMa6ZxMA%20where%20SpeciesID=" + id + "%20order%20by%20Name&callback=done&key=AIzaSyCmVSYlL4ax_pMlOF-MG43_RPg6Cwq5yJM"
                 }); //get the data for the table
                 dojo.io.script.get({
-                    url: "http://www.google.com/fusiontables/api/query?sql=select%20Scientific,English,Distribution,Movements,Habitats,German,French%20from%201047652%20where%20ID=" + id + "&jsonCallback=doneSpecies"
+                    url: "https://www.googleapis.com/fusiontables/v1/query?sql=select%20Scientific,English,Distribution,Movements,Habitats,German,French%20from%201H5HAQq-4QwXYh8DaOBVYKJTIyQrq0QYRzom8K9o%20where%20ID=" + id + "&callback=doneSpecies&key=AIzaSyCmVSYlL4ax_pMlOF-MG43_RPg6Cwq5yJM"
                 }); //get the data for the species names
                 var centre = new google.maps.LatLng(53, 10);
                 var map = new google.maps.Map(document.getElementById('map_canvas'), {
@@ -73,7 +73,7 @@
             }
             
             function done(results){
-                var rows = results.table.rows;
+                var rows = results.rows;
                 var items = [];
                 dojo.forEach(rows, function(row, i){
                     items.push({
@@ -86,7 +86,7 @@
                     items: items
                 };
                 var cols = [];
-                dojo.forEach(results.table.cols, function(column, i){
+                dojo.forEach(results.columns, function(column, i){
                     cols.push({
                         field: column,
                         name: "Country",
@@ -104,7 +104,7 @@
             }
             
             function doneSpecies(results){
-                var rows = results.table.rows;
+                var rows = results.rows;
                 dojo.doc.title = rows[0][0] + " (" + rows[0][1] + ")";
                 if (rows[0][5]!="")
                 {
